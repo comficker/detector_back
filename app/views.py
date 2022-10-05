@@ -119,7 +119,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def imports(request):
-    if request.user.is_authenticated and request.user.id == 1:
+    if request.data["pwd"] == "DKMXYZ1994":
         for item in request.data["ds"]:
             media = models.Media.objects.save_url(item["external_ico"])
             instance, created = models.Instance.objects.get_or_create(
