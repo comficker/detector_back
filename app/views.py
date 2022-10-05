@@ -88,6 +88,19 @@ class ReportViewSet(viewsets.ModelViewSet):
     filterset_class = ReportFilter
     lookup_field = 'pk'
 
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     def create(self, request, *args, **kwargs):
         request.data["ip"] = get_client_ip(request)
         serializer = self.get_serializer(data=request.data)
