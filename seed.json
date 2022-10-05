@@ -5,7 +5,7 @@
     "callback": "https://google.com",
     "desc": "Google LLC is an American multinational technology company that focuses on search engine technology, online advertising, cloud computing, computer software, quantum computing, e-commerce, artificial intelligence, and consumer electronics.",
     "external_ico": "https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png",
-    "labels": ["Search Engine"]
+    "str_labels": ["Search Engine"]
   },
   {
     "name": "Roblox",
@@ -13,7 +13,7 @@
     "callback": "https://www.roblox.com",
     "desc": "Roblox is an online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
     "external_ico": "https://play-lh.googleusercontent.com/WNWZaxi9RdJKe2GQM3vqXIAkk69mnIl4Cc8EyZcir2SKlVOxeUv9tZGfNTmNaLC717Ht=s96-rw",
-    "labels": ["Game"]
+    "str_labels": ["Game"]
   },
   {
     "name": "Reddit",
@@ -21,7 +21,7 @@
     "callback": "https://www.reddit.com",
     "desc": "Reddit is an American social news aggregation, content rating, and discussion website. Registered users submit content to the site such as links, text posts, images, and videos, which are then voted up or down by other members.",
     "external_ico": "https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png",
-    "labels": ["Social Network"]
+    "str_labels": ["Social Network"]
   },
   {
     "name": "Instagram",
@@ -29,7 +29,7 @@
     "callback": "https://www.instagram.com/",
     "desc": "Instagram is an American photo and video sharing social networking service founded in 2010 by Kevin Systrom and Mike Krieger, and later acquired by American company Facebook Inc., now known as Meta Platforms.",
     "external_ico": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png",
-    "labels": ["Social Network", "App"]
+    "str_labels": ["Social Network", "App"]
   },
   {
     "name": "Paypal",
@@ -37,7 +37,7 @@
     "callback": "https://www.paypal.com/vn/home",
     "desc": "PayPal Holdings, Inc. is an American multinational financial technology company operating an online payments system in the majority of countries that support online money transfers, and serves as an electronic alternative to traditional paper methods such as checks and money orders.",
     "external_ico": "https://cdn-icons-png.flaticon.com/512/174/174861.png",
-    "labels": ["Payment"]
+    "str_labels": ["Payment"]
   },
   {
     "name": "Doordash",
@@ -45,7 +45,7 @@
     "callback": "https://www.doordash.com/",
     "desc": "DoorDash, Inc. is an American company that operates an online food ordering and food delivery platform. The company is based in San Francisco, California. ",
     "external_ico": "https://i.pinimg.com/originals/f5/f2/11/f5f2112ee6f926edfc1e3bc7ef4f5487.png",
-    "labels": ["Service", "Delivery"]
+    "str_labels": ["Service", "Delivery"]
   },
   {
     "name": "youtube",
@@ -53,7 +53,7 @@
     "callback": "https://youtube.com",
     "desc": "YouTube is an American online video sharing and social media platform headquartered in San Bruno, California. It was launched on February 14, 2005, by Steve Chen, Chad Hurley, and Jawed Karim. It is currently owned by Google, and is the second most visited website, after Google Search.",
     "external_ico": "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-    "labels": ["Social Media", "Video"]
+    "str_labels": ["Social Media", "Video"]
   },
   {
     "name": "Twitter",
@@ -61,6 +61,6 @@
     "callback": "https://twitter.com/home",
     "desc": "Twitter, Inc. is an American communications company based in San Francisco, California. The company operates the microblogging and social networking service Twitter. It previously operated the Vine short video app and Periscope livestreaming service.",
     "external_ico": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/640px-Twitter-logo.svg.png",
-    "labels": ["Social Network"]
+    "str_labels": ["Social Network"]
   }
 ]

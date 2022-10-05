@@ -110,11 +110,16 @@ def imports(request):
         for item in request.data["ds"]:
             instance, created = models.Instance.objects.get_or_create(
                 id_string=item.get("id_string"),
-                defaults=item
+                defaults={
+                    "name": item["name"],
+                    "callback": item["callback"],
+                    "desc": item["desc"],
+                    "external_ico": item["external_ico"],
+                }
             )
             if created:
                 instance.generate_reports(item.get("is_down", False))
-                if item.get("labels"):
+                if item.get("str_labels"):
                     for label_raw in item.get("labels"):
                         label, _ = models.Label.objects.get_or_create(
                             name=label_raw
