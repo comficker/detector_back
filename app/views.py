@@ -121,6 +121,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 def imports(request):
     if request.user.is_authenticated and request.user.id == 1:
         for item in request.data["ds"]:
+            media = models.Media.objects.save_url(item["external_ico"])
             instance, created = models.Instance.objects.get_or_create(
                 id_string=item.get("id_string"),
                 defaults={
@@ -128,6 +129,7 @@ def imports(request):
                     "callback": item["callback"],
                     "desc": item["desc"],
                     "external_ico": item["external_ico"],
+                    "icon": media
                 }
             )
             if created:
