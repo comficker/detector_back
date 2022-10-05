@@ -5,6 +5,7 @@ from base.interface import BaseModel, HasIDString
 from django.contrib.auth.models import User
 from media.models import Media
 from django.utils import timezone
+from datetime import timedelta
 
 
 # Create your models here.
@@ -28,6 +29,7 @@ class Instance(BaseModel, HasIDString):
     boundaries = models.JSONField(null=True, blank=True)
 
     labels = models.ManyToManyField(Label, related_name="instances", blank=True)
+    rp = models.JSONField(null=True, blank=True)
 
     def generate_reports(self, is_down):
         with open("cities.json") as f:
@@ -43,6 +45,33 @@ class Instance(BaseModel, HasIDString):
                     log=ct.get("lng")
                 )
                 i = i + 1
+
+    def generate_rp(self):
+        now = timezone.now()
+        now.replace(hour=0, second=0, minute=0)
+        before30 = now + timedelta(days=-30)
+        if self.rp is None:
+            self.rp = {}
+        for report in self.reports.filter(created__gt=before30).order_by("created"):
+            key = report.created.date().__str__()
+            if not self.rp.get(key):
+                self.rp[key] = {
+                    "date": key,
+                    "up": 0,
+                    "down": 0
+                }
+            if report.is_down:
+                self.rp[key]["down"] = self.rp[key]["down"] + 1
+            else:
+                self.rp[key]["up"] = self.rp[key]["up"] + 1
+        if not (
+                self.last_check.year == now.year and
+                self.last_check.month == now.month and
+                self.last_check.day == now.year):
+            self.today_report = 0
+        self.today_report = self.today_report + 1
+        self.last_check = now
+        self.save()
 
 
 class Report(BaseModel):

@@ -39,7 +39,7 @@ class ReportFilter(filters.FilterSet):
 class InstanceViewSet(viewsets.ModelViewSet):
     models = models.Instance
     queryset = models.objects.order_by('-id')
-    serializer_class = serializers.InstanceSerializer
+    serializer_class = serializers.InstanceShortSerializer
     permission_classes = permissions.AllowAny,
     pagination_class = pagination.Pagination
     filter_backends = [OrderingFilter, SearchFilter]
@@ -64,9 +64,8 @@ class InstanceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_cookie)
     def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = serializers.InstanceSerializer
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
@@ -88,8 +87,6 @@ class ReportViewSet(viewsets.ModelViewSet):
     filterset_class = ReportFilter
     lookup_field = 'pk'
 
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_cookie)
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -108,18 +105,9 @@ class ReportViewSet(viewsets.ModelViewSet):
         serializer.save(user=request.user if request.user.is_authenticated else None)
         headers = self.get_success_headers(serializer.data)
         instance = models.Report.objects.get(pk=serializer.data["id"]).instance
-        now = timezone.now()
-        if not (
-                instance.last_check.year == now.year and
-                instance.last_check.month == now.month and
-                instance.last_check.day == now.year):
-            instance.today_report = 0
-        instance.today_report = instance.today_report + 1
-        now = timezone.now()
-        instance.last_check = now
+        instance.generate_rp()
         if request.user.is_authenticated and len(instance.reports.filter(created__gt=timezone.now())) < 100:
             instance.generate_reports(not check_status(instance.callback))
-        instance.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def update(self, request, *args, **kwargs):
