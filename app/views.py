@@ -135,7 +135,7 @@ def imports(request):
             if created:
                 instance.generate_reports(item.get("is_down", False))
                 if item.get("str_labels"):
-                    for label_raw in item.get("labels"):
+                    for label_raw in item.get("str_labels"):
                         label, _ = models.Label.objects.get_or_create(
                             name=label_raw
                         )
