@@ -1,13 +1,17 @@
 from app import models
 from rest_framework import serializers
 from authentication.api.serializers import UserSerializer
+from media.api.serializers import MediaSerializer
 
 
 class InstanceShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Instance
         fields = ['id', 'id_string', 'name', 'icon', 'external_ico']
-        extra_fields = []
+
+    def to_representation(self, instance):
+        self.fields["icon"] = MediaSerializer(read_only=True)
+        return super(InstanceShortSerializer, self).to_representation(instance)
 
 
 class InstanceSerializer(serializers.ModelSerializer):
@@ -16,6 +20,7 @@ class InstanceSerializer(serializers.ModelSerializer):
         fields = ['id', 'id_string', 'name', 'icon', 'external_ico', 'rp', 'desc']
 
     def to_representation(self, instance):
+        self.fields["icon"] = MediaSerializer(read_only=True)
         return super(InstanceSerializer, self).to_representation(instance)
 
 
