@@ -48,8 +48,8 @@ class InstanceViewSet(viewsets.ModelViewSet):
 
     lookup_field = 'id_string'
 
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_cookie)
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_cookie)
     def list(self, request, *args, **kwargs):
         q = Q()
         if request.GET.get("related"):

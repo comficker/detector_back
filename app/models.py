@@ -18,9 +18,12 @@ class Instance(BaseModel, HasIDString):
     name = models.CharField(max_length=120)
     desc = models.CharField(max_length=260, null=True, blank=True)
     callback = models.CharField(max_length=120, null=True, blank=True)
+    enable_report = models.BooleanField(default=True)
+    enable_rate = models.BooleanField(default=True)
     is_down = models.BooleanField(default=False)
     last_check = models.DateTimeField(default=timezone.now)
     today_report = models.IntegerField(default=0)
+    socials = models.JSONField(null=True, blank=True)
 
     icon = models.ForeignKey(Media, related_name="instances", on_delete=models.SET_NULL, null=True, blank=True)
     external_ico = models.CharField(max_length=150, null=True, blank=True)
@@ -30,6 +33,8 @@ class Instance(BaseModel, HasIDString):
 
     labels = models.ManyToManyField(Label, related_name="instances", blank=True)
     rp = models.JSONField(null=True, blank=True)
+    score = models.JSONField(null=True, blank=True)
+    score_computed = models.FloatField(default=0)
 
     def generate_reports(self, is_down):
         with open("cities.json") as f:
@@ -88,6 +93,7 @@ class Report(BaseModel):
         null=True,
         blank=True
     )
+
     ip = models.CharField(max_length=50, null=True, blank=True)
     lat = models.CharField(max_length=50, null=True, blank=True)
     log = models.CharField(max_length=50, null=True, blank=True)
@@ -96,3 +102,24 @@ class Report(BaseModel):
     content = models.CharField(max_length=500, null=True, blank=True)
 
     created = models.DateTimeField(default=timezone.now, db_index=True)
+
+
+class SafeVote(BaseModel):
+    instance = models.ForeignKey(
+        Instance,
+        related_name="safe_votes",
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        related_name="safe_votes",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    is_safe = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('instance', 'user')
